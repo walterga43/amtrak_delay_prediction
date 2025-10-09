@@ -93,9 +93,9 @@ class HistoricalDataManager:
 
     master_train_file = f"{self.data_dir}/historical/all_trains.csv"
     if os.path.exists(master_train_file):
-      station_df.to_csv(master_train_file, mode='a', header=False, index=False)
+      train_df.to_csv(master_train_file, mode='a', header=False, index=False)
     else:
-      station_df.to_csv(master_train_file, index=False)
+      train_df.to_csv(master_train_file, index=False)
 
   def get_historical_data(self, days_back=7):
     master_file = f"{self.data_dir}/historical/all_stations.csv"
@@ -116,8 +116,8 @@ class HistoricalDataManager:
     print("Starting data collection")
     print("Data will be collected at 30 minute intervals (press CRTL + C to stop)")
 
-    schedule.every(30).minutes.do(self.collect_and_store())
-    self.collect_and_store
+    schedule.every(30).minutes.do(self.collect_and_store)
+    self.collect_and_store()
 
     while True:
       schedule.run_pending()
