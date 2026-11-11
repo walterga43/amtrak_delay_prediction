@@ -33,12 +33,6 @@ except ImportError as e:
     packages_status.append(f"✗ Matplotlib not installed: {e}")
 
 try:
-    import seaborn
-    packages_status.append(f"✓ Seaborn installed: {seaborn.__version__}")
-except ImportError as e:
-    packages_status.append(f"✗ Seaborn not installed: {e}")
-
-try:
     import schedule
     # Schedule doesn't have __version__, so just check if it imports
     packages_status.append(f"✓ Schedule installed: (version not available)")
@@ -92,6 +86,7 @@ print(f"Current directory: {current_dir}")
 files_to_check = [
     "data_collector.py",
     "automated_collection.py",
+    "models.py",
     "requirements.txt"
 ]
 
@@ -104,7 +99,6 @@ for file in files_to_check:
 # Check for data directories
 dirs_to_check = [
     "data",
-    "data/raw",
     "data/historical"
 ]
 
@@ -143,6 +137,6 @@ else:
     print("✗ Some packages are missing - check above for details")
 
 print("\nNEXT STEPS:")
-print("1. If all packages are installed, update your automated_collection.py with the fixed version")
-print("2. Run: python automated_collection.py")
-print("3. For data analysis, save and run the data_display.py script")
+print("1. Train and evaluate the model:      python models.py")
+print("2. Explore the data:                  jupyter notebook historical_data_visualization.ipynb")
+print("3. Collect more data every 30 min:    python automated_collection.py")

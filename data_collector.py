@@ -1,20 +1,29 @@
-import requests
-import pandas as pd
-from datetime import datetime
-import os
 import json
+import os
 import time
+
+import requests
+
+API_URL = "https://api-v3.amtraker.com/v3/trains"
+CACHE_MINUTES = 30
+
 
 class AmtrackDataCollector:
   def __init__(self, data_path):
     self.data_path = data_path
-    self.api_url = "https://api-v3.amtraker.com/v3/trains"
+    self.api_url = API_URL
 
   def _update_train_data(self):
-    r = requests.get(self.api_url)
+    try:
+      r = requests.get(self.api_url, timeout=30)
+    except requests.RequestException as e:
+      print(f"Error: could not reach API ({e})")
+      return False
+
     if r.status_code == 200:
       print("Success!")
       data = r.json()
+      os.makedirs(os.path.dirname(self.data_path) or '.', exist_ok=True)
       with open(self.data_path, "w") as f:
         json.dump(data, f)
       return True
@@ -25,7 +34,7 @@ class AmtrackDataCollector:
   def _check_data(self):
     if os.path.exists(self.data_path):
       file_age = time.time() - os.path.getmtime(self.data_path)
-      if file_age < 30 * 60:
+      if file_age < CACHE_MINUTES * 60:
         print("Using recently saved data.")
         return True
       else:

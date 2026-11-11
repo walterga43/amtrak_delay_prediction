@@ -1,8 +1,7 @@
-requests
-pandas
-numpy
-scikit-learn
-matplotlib
-seaborn
-jupyter
-schedule
+requests>=2.32
+pandas>=3.0
+numpy>=2.3
+scikit-learn>=1.8
+matplotlib>=3.10
+schedule>=1.2
+jupyter>=1.1
